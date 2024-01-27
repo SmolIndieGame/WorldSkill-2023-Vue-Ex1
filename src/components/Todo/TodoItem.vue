@@ -1,30 +1,68 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import type Todo from '@/models/todo'
 
 defineProps<{
   id: number
-  content: string
-  onRemove: (id: number) => void
+  item: Todo
+  editable: boolean
 }>()
 
-const tick = ref(false)
+defineEmits<{
+  edit: [id: number]
+  delete: [id: number]
+  check: [id: number]
+}>()
 </script>
 
 <template>
-  <div>
-    <label>
-      <input type="checkbox" v-model="tick" />
-      <span v-if="tick">
-        <strong>
-          {{ content }}
-        </strong>
-      </span>
-      <span v-else>
-        {{ content }}
-      </span>
-    </label>
-    <button @click="() => onRemove(id)">Remove</button>
-  </div>
+  <li>
+    <div class="flex-h">
+      <label class="block">
+        <input
+          class="tick"
+          type="checkbox"
+          :value="item.isDone"
+          @click="() => $emit('check', id)"
+        />
+        <span :class="{ 'line-through': item.isDone }">
+          {{ item.title }}
+        </span>
+      </label>
+      ⋅ {{ item.dueDate }}
+      <div v-if="editable">
+        <a href="#" @click.prevent="() => $emit('edit', id)">Edit</a>
+      </div>
+      <div>
+        <a href="#" @click.prevent="() => $emit('delete', id)">Remove</a>
+      </div>
+    </div>
+    <div :class="'indented'">
+      {{ item.desc }}
+    </div>
+  </li>
 </template>
 
-<style scoped></style>
+<style scoped>
+.flex-h {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.block {
+  display: block;
+}
+
+.tick {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.indented {
+  margin-left: 24px;
+}
+.line-through {
+  text-decoration: line-through;
+}
+</style>
