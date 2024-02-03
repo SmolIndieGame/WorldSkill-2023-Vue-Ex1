@@ -1,5 +1,5 @@
 export default class Todo {
-    id: number
+    id: number = -1
     title?: string
     desc?: string
     dueDate?: string
