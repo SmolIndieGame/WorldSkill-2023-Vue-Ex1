@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { projectIter, add, remove } from '@/controllers/Todo/projectRepo'
+import { projectIter, add, remove, edit } from '@/controllers/Todo/projectRepo'
 import Project from '@/models/project'
 import { ref } from 'vue'
 
+const editing = ref<Record<number, Project | undefined>>({})
 const projectForm = ref(new Project())
 const error = ref('')
 
@@ -20,7 +21,15 @@ const addProject = () => {
   projectForm.value = new Project()
 }
 
-const editProject = () => {}
+const startEditingProject = (project: Project) => {
+  editing.value[project.id] = project
+}
+const editProject = (id: number) => {
+  if (!editing.value[id]) return
+  const ret = edit(editing.value[id]!)
+  handleErr(ret)
+  editing.value[id] = undefined
+}
 
 const removeProject = (id: number) => {
   const ret = remove(id)
@@ -32,9 +41,14 @@ const removeProject = (id: number) => {
   <nav>
     <h2>Projects</h2>
     <ul v-for="project in projectIter" :key="project.id">
-      <li>
+      <li v-if="editing[project.id]">
+        <input @change="(evt) => (editing[project.id].name = (evt.target as any).value)" />
+        <a href="#" @click.prevent="() => editProject(project.id)">Done</a>
+      </li>
+      <li v-else>
         <RouterLink :to="`/todo/project/${project.id}`">{{ project.name }}</RouterLink>
-        ⋅ <a href="#" @click.prevent="() => removeProject(project.id)">Delete</a>
+        ⋅ <a href="#" @click.prevent="() => startEditingProject(project)">Edit</a> ⋅
+        <a href="#" @click.prevent="() => removeProject(project.id)">Delete</a>
       </li>
     </ul>
     <form @submit.prevent="addProject">
