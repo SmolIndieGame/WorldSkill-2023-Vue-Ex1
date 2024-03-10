@@ -54,7 +54,7 @@ const onCancel = () => {
     </div>
     <div>
       <input type="submit" value="Ok" />
-      <button @click="onCancel">Cancel</button>
+      <button @click.prevent="onCancel">Cancel</button>
     </div>
   </form>
 </template>

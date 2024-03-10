@@ -16,7 +16,7 @@ import TodoNav from './TodoNav.vue'
 <style scoped>
 .container {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 3fr;
   gap: 1rem;
 }
 .nav {

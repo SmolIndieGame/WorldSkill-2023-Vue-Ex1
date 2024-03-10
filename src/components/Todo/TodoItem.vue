@@ -5,6 +5,7 @@ defineProps<{
   id: number
   item: Todo
   editable: boolean
+  editing: boolean
 }>()
 
 defineEmits<{
@@ -32,6 +33,7 @@ defineEmits<{
       <div v-if="editable">
         <a href="#" @click.prevent="() => $emit('edit', id)">Edit</a>
       </div>
+      <div v-if="editing">(editing)</div>
       <div>
         <a href="#" @click.prevent="() => $emit('delete', id)">Remove</a>
       </div>
