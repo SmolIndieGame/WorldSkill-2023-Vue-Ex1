@@ -42,7 +42,7 @@ const removeProject = (id: number) => {
     <h2>Projects</h2>
     <ul v-for="project in projectIter" :key="project.id">
       <li v-if="editing[project.id]">
-        <input @change="(evt) => (editing[project.id].name = (evt.target as any).value)" />
+        <input @change="(evt) => (editing[project.id]!.name = (evt.target as any).value)" />
         <a href="#" @click.prevent="() => editProject(project.id)">Done</a>
       </li>
       <li v-else>
