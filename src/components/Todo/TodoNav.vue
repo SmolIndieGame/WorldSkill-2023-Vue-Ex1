@@ -13,7 +13,7 @@ const handleErr = (result: string) => {
   if (!result) return
   error.value = result
   if (errorTimeout.value) clearTimeout(errorTimeout.value)
-  errorTimeout.value = setTimeout(() => (error.value = ''), 3000)
+  errorTimeout.value = setTimeout(() => (error.value = ''), 3000) as unknown as number
   return
 }
 
