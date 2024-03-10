@@ -23,6 +23,7 @@ defineEmits<{
           class="tick"
           type="checkbox"
           :value="item.isDone"
+          :checked="item.isDone"
           @click="() => $emit('check', id)"
         />
         <span :class="{ 'line-through': item.isDone }">

@@ -53,7 +53,7 @@ export const overdues = () => {
   const overDues = [] as { todo: Todo; project: Project }[]
 
   for (const { todo, project } of todos) {
-    if (!todo.dueDate) continue
+    if (!todo.dueDate || todo.isDone) continue
     const due = new Date(todo.dueDate)
     const now = new Date()
     if (due.getFullYear() > now.getFullYear()) continue
@@ -82,7 +82,7 @@ export const todays = () => {
 
   const today = [] as { todo: Todo; project: Project }[]
   for (const { todo, project } of todos) {
-    if (!todo.dueDate) continue
+    if (!todo.dueDate || todo.isDone) continue
     const due = new Date(todo.dueDate)
     const now = new Date()
     const include =

@@ -15,7 +15,7 @@ const props = defineProps<{
 
 const editing = ref<number | null>()
 const error = ref('')
-const errorTimeout = ref(0)
+const errorTimeout = ref<NodeJS.Timeout>()
 
 watch(
   () => props.title,
@@ -91,12 +91,16 @@ const onCancel = () => {
     <div v-if="editing === null">
       <TodoForm @submit="onAdd" @cancel="onCancel" />
     </div>
-    <p>{{ error }}</p>
+    <p class="error">{{ error }}</p>
   </div>
 </template>
 
 <style scoped>
 h4 {
   font-weight: bold;
+}
+
+.error {
+  color: red;
 }
 </style>
